@@ -18,7 +18,11 @@ namespace Nottit.Models {
                 UserName = UserName,
                 Comments = (Comments ?? new List<Comment>()).Select(c => new {
                     Id = c.Id,
-                    LinkUrl = c.Link.Url,
+                    Link = new {
+                        Id = c.Link.Id,
+                        Url = c.Link.Url,
+                        Title = c.Link.Title
+                    },
                     Text = c.Text
                 }),
                 Links = (Links ?? new List<Link>()).Select(l => new {

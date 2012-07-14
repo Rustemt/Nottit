@@ -97,16 +97,16 @@ function UserDetailController($scope, $routeParams, User) {
     $scope.user = User.get({ Id: $routeParams.Id });
 }
 
-function LinkDetailController($scope, $routeParams, Link) {
+function LinkDetailController($scope, $routeParams, Link, Comment) {
     $scope.link = Link.get({ Id: $routeParams.Id });
 
-    //$scope.createComment = function () {
-    //    var comment = new ChallengeComment($scope.newComment);
-    //    comment.ChallengeId = $scope.challenge.Id;
-    //    comment.$save(function (newComment) {
-    //        $scope.challenge.Comments.splice(0, 0, newComment);
-    //    });
-    //};
+    $scope.createComment = function () {
+        var comment = new Comment($scope.newComment);
+        comment.LinkId = $scope.link.Id;
+        comment.$save(function (newComment) {
+            $scope.link.Comments.splice(0, 0, newComment);
+        });
+    };
 }
 
 function LoginController($rootScope, $scope, $http, $location) {

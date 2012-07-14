@@ -30,8 +30,10 @@ namespace Nottit.Models {
                 CommentsIncluded = includeComments,
                 Comments = !includeComments ? null : comments.Select(c => new {
                     Id = c.Id,
-                    Author = c.Author.UserName,
-                    AuthorId = c.AuthorId,
+                    Author = new {
+                        Id = c.AuthorId,
+                        UserName = c.Author.UserName,
+                    },
                     Text = c.Text
                 })
             };

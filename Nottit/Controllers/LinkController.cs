@@ -15,7 +15,7 @@ namespace Nottit.Controllers {
         [AllowAnonymous]
         public IEnumerable GetSummary() {
             return Db.Links
-                .Include(l => l.Comments)
+                .Include("Comments.Author")
                 .Include(l => l.Author)
                 .OrderBy(l => l.Id).AsEnumerable().Select(l => l.Transform(false));
         }
@@ -24,7 +24,7 @@ namespace Nottit.Controllers {
         [AllowAnonymous]
         public object Get(int id) {
             var link = Db.Links
-                .Include(l => l.Comments)
+                .Include("Comments.Author")
                 .Include(l => l.Author)                
                 .FirstOrDefault(l => l.Id == id);
 

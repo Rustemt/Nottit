@@ -1,1 +1,8 @@
 ﻿<h2>{{link.Title}}</h2>
+
+<textarea ng-model="newComment.Text"></textarea>
+<input type="submit" value="Comment" class="btn btn-primary" ng-click="createComment()" />
+
+<div ng-repeat="comment in link.Comments">
+    {{comment.Text }} -- {{comment.Author.UserName}}
+</div>

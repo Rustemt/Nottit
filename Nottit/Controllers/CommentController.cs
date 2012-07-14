@@ -11,21 +11,6 @@ using Nottit.Models;
 
 namespace Nottit.Controllers {
     public class CommentController : BaseController {
-        private object Transform(Comment comment) {
-            return new {
-                Id = comment.Id,
-                Author = new {
-                    UserName = comment.Author.UserName,
-                    Id = comment.AuthorId
-                },
-                Link = new {
-                    Title = comment.Link.Title,
-                    Url = comment.Link.Url,
-                    Id = comment.LinkId
-                },
-                Text = comment.Text
-            };
-        }
 
         // GET api/comment
         [AllowAnonymous]
@@ -33,7 +18,7 @@ namespace Nottit.Controllers {
             return Db.Comments
                 .Include(c => c.Author)
                 .Include(c => c.Link)
-                .OrderBy(c => c.Id).AsEnumerable().Select(c => Transform(c));
+                .OrderBy(c => c.Id).AsEnumerable().Select(c => c.Transform());
         }
 
         // GET api/comment/5
@@ -48,7 +33,7 @@ namespace Nottit.Controllers {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            return Transform(comment);
+            return comment.Transform();
         }
 
         // POST api/comment
@@ -59,7 +44,7 @@ namespace Nottit.Controllers {
             Db.Comments.Add(comment);
             Db.SaveChanges();
 
-            return Transform(comment);
+            return comment.Transform();
         }
     }
 }
