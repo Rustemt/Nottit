@@ -29,7 +29,7 @@ namespace Nottit.Controllers {
         // GET api/comment
         [AllowAnonymous]
         public IEnumerable Get() {
-            return Db.Comments.OrderBy(c => c.Id).Select(c => Transform(c));
+            return Db.Comments.OrderBy(c => c.Id).AsEnumerable().Select(c => Transform(c));
         }
 
         // GET api/comment/5

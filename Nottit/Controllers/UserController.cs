@@ -30,7 +30,7 @@ namespace Nottit.Controllers {
         // Get api/user
         [AllowAnonymous]
         public IEnumerable Get() {
-            return Db.Users.Select(u => Transform(u));
+            return Db.Users.AsEnumerable().Select(u => Transform(u));
         }
 
         // GET api/user/5

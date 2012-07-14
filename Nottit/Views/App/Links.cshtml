@@ -1,0 +1,8 @@
+﻿<h2>Links</h2>
+
+
+<div ng-show="!links.length">Nothing submitted :(</div>
+
+<div ng-each="link in links">
+    <a href="{{link.Url}}">{{link.Title}}</a>
+</div>

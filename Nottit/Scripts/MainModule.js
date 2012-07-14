@@ -1,11 +1,18 @@
-﻿angular.module('main', ['currentuser', 'challenge', 'challengeVote', 'challengeAssignment', 'challengeComment']).
+﻿angular.module('main', ['ngResource']).
+factory('Link', function ($resource) {
+    return $resource('/api/Link');
+}).
+factory('Comment', function ($resource) {
+    return $resource('/api/Comment');
+}).
+factory('User', function ($resource) {
+    return $resource('/api/User');
+}).
 config(function ($routeProvider) {
     $routeProvider.
-        when('/', { controller: LandingPageController, templateUrl: '/App/LandingPage' }).
-        when('/Profile', { controller: ProfileController, templateUrl: '/App/Profile' }).
-        when('/Challenges', { controller: ChallengeController, templateUrl: '/App/Challenges' }).
-        when('/Challenge/:Id', { controller: ChallengeDetailController, templateUrl: '/App/ChallengeDetail' }).
-        when('/Join', { controller: JoinController, templateUrl: '/App/Join' }).
+        when('/', { controller: LinksController, templateUrl: '/App/Links' }).
+        when('/User/:Id', { controller: UserDetailController, templateUrl: '/App/UserDetail' }).
+        when('/Link/:Id', { controller: LinkDetailController, templateUrl: '/App/LinkDetail' }).
         otherwise({ redirectTo: '/' });
 }).
 config(function ($httpProvider) {
@@ -41,7 +48,7 @@ config(function ($httpProvider) {
     $httpProvider.responseInterceptors.push(interceptor);
 }).
 run(['$rootScope', '$http', function (scope, $http) {
-    scope.DisplayName = "Not Logged In";
+    scope.appTitle = 'Nottit';
     scope.requests401 = [];
 
     scope.$on('event:loginConfirmed', function () {
@@ -59,71 +66,28 @@ run(['$rootScope', '$http', function (scope, $http) {
     });
 }]);
 
-function LandingPageController($scope) {
+function LinksController($scope, Link) {
+    $scope.links = Link.query();
 }
 
-function ProfileController($rootScope, $scope, CurrentUser, ChallengeAssignment) {
-    $rootScope.user = CurrentUser.get();
-
-    $scope.markComplete = function (challenge) {
-        ChallengeAssignment.update({
-            ChallengeId: challenge.Id,
-            Completed: true
-        }, function () {
-            $rootScope.user.CurrentChallenges.splice($rootScope.user.CurrentChallenges.indexOf(challenge), 1);
-            $rootScope.user.CompleteChallenges.push(challenge);
-        });
-    };
+function UserDetailController($rootScope, $scope, User) {
 }
 
-function ChallengeDetailController($scope, $routeParams, Challenge, ChallengeComment) {
-    $scope.challenge = Challenge.get({ Id: $routeParams.Id });
+function LinkDetailController($scope, $routeParams, Link) {
+    //$scope.challenge = Challenge.get({ Id: $routeParams.Id });
 
-    $scope.createComment = function () {
-        var comment = new ChallengeComment($scope.newComment);
-        comment.ChallengeId = $scope.challenge.Id;
-        comment.$save(function (newComment) {
-            $scope.challenge.Comments.splice(0, 0, newComment);
-        });
-    };
-}
-
-function ChallengeController($rootScope, $scope, Challenge, ChallengeVote, ChallengeAssignment) {
-    $scope.challenges = Challenge.query();
-
-    $scope.voteUp = function(challenge) {
-        ChallengeVote.voteUp(challenge);
-    };
-
-    $scope.voteDown = function (challenge) {
-        ChallengeVote.voteDown(challenge);
-    };
-
-    $scope.takeChallenge = function (challenge) {
-        var assignment = new ChallengeAssignment({
-            ChallengeId: challenge.Id
-        });
-
-        assignment.$save(function () {
-            challenge.StateCurrentUser = 'assigned';
-        });
-    };
-
-    $scope.showChallengeModal = function () {
-        $('#createChallengeModal').modal();
-    };
-
-    $scope.create = function() {
-        Challenge.save($scope.challenge, function (createdChallenge) {
-            $scope.challenges.push(createdChallenge);
-            $('#createChallengeModal').modal('hide');
-        });
-    };
+    //$scope.createComment = function () {
+    //    var comment = new ChallengeComment($scope.newComment);
+    //    comment.ChallengeId = $scope.challenge.Id;
+    //    comment.$save(function (newComment) {
+    //        $scope.challenge.Comments.splice(0, 0, newComment);
+    //    });
+    //};
 }
 
 function LoginController($rootScope, $scope, $http, $location) {
     $scope.login = function () {
-        var payload = { EmailAddress: $scope.email, Password: $scope.password };
+        var payload = { username: $scope.username, password: $scope.password };
         $http.post('/api/Login', payload).success(function (data) {
             if (data.result === true) {
                 delete $scope.loginErrorMessage;
@@ -142,26 +106,3 @@ function LoginController($rootScope, $scope, $http, $location) {
     };
 }
 
-function JoinController($rootScope, $scope, $http, $location) {
-    $scope.join = function () {
-        var payload = {
-            UserName: $scope.username,
-            EmailAddress: $scope.email,
-            Password: $scope.password,
-            PasswordConfirm: $scope.passwordConfirm
-        };
-
-        $http.post('/api/Join', payload).success(function (data) {
-            if (data.result === true) {
-                delete $scope.joinErrorMessage;
-                $scope.emit('event:loginConfirmed');
-                $location.path('/Profile');
-            } else {
-                $scope.joinErrorMessage = data.errorMessage;
-            }
-        }).
-        error(function (data) {
-            $scope.joinErrorMessage = data[0].Value;
-        });
-    };
-}

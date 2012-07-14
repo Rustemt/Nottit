@@ -34,7 +34,7 @@ namespace Nottit.Controllers {
         // GET api/link
         [AllowAnonymous]
         public IEnumerable GetSummary() {
-            return Db.Links.OrderBy(l => l.Id).Select(l => Transform(l, false));
+            return Db.Links.OrderBy(l => l.Id).AsEnumerable().Select(l => Transform(l, false));
         }
 
         // GET api/link/5

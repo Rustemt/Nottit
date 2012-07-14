@@ -136,7 +136,47 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Content Include="Content\css\bootstrap-responsive.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\soshel.css" />
+    <Content Include="Content\css\sprite-reddit.png" />
+    <Content Include="Content\img\bird.png" />
+    <Content Include="Content\img\bootstrap-mdo-sfmoma-01.jpg" />
+    <Content Include="Content\img\bootstrap-mdo-sfmoma-02.jpg" />
+    <Content Include="Content\img\bootstrap-mdo-sfmoma-03.jpg" />
+    <Content Include="Content\img\browsers.png" />
+    <Content Include="Content\img\example-sites\fleetio.png" />
+    <Content Include="Content\img\example-sites\jshint.png" />
+    <Content Include="Content\img\example-sites\kippt.png" />
+    <Content Include="Content\img\example-sites\soundready.png" />
+    <Content Include="Content\img\examples\bootstrap-example-fluid.jpg" />
+    <Content Include="Content\img\examples\bootstrap-example-hero.jpg" />
+    <Content Include="Content\img\examples\bootstrap-example-starter.jpg" />
+    <Content Include="Content\img\github-16px.png" />
+    <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_009_magic.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_042_group.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_079_podium.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_082_roundabout.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_155_show_thumbnails.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_163_iphone.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_214_resize_small.png" />
+    <Content Include="Content\img\glyphicons\glyphicons_266_book_open.png" />
+    <Content Include="Content\img\grid-18px-masked.png" />
+    <Content Include="Content\img\icon-css3.png" />
+    <Content Include="Content\img\icon-github.png" />
+    <Content Include="Content\img\icon-html5.png" />
+    <Content Include="Content\img\icon-twitter.png" />
+    <Content Include="Content\img\less-logo-large.png" />
+    <Content Include="Content\img\less-small.png" />
+    <Content Include="Content\img\responsive-illustrations.png" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-1.0.1.min.js" />
+    <Content Include="Scripts\angular-resource-1.0.1.min.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\MainModule.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -151,6 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App\Links.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
