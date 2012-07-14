@@ -77,7 +77,8 @@ function LinksController($scope, Link) {
 
     $scope.create = function () {
         var link = new Link($scope.newLink);
-        link.$save(function () {
+        link.$save(function (newLink) {
+            $scope.links.push(newLink);
             $(dialog).modal('hide');
         });
     };
@@ -87,7 +88,7 @@ function UserDetailController($rootScope, $scope, User) {
 }
 
 function LinkDetailController($scope, $routeParams, Link) {
-    //$scope.challenge = Challenge.get({ Id: $routeParams.Id });
+    $scope.link = Link.get({ Id: $routeParams.Id });
 
     //$scope.createComment = function () {
     //    var comment = new ChallengeComment($scope.newComment);

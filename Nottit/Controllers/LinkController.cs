@@ -13,20 +13,20 @@ namespace Nottit.Controllers {
 
         private object Transform(Link link, bool includeComments) {
             return new {
-                id = link.Id,
-                title = link.Title,
-                url = link.Url,
-                author = new {
-                    userName = link.Author.UserName,
-                    id = link.AuthorId
+                Id = link.Id,
+                Title = link.Title,
+                Url = link.Url,
+                Submitter = new {
+                    UserName = link.Author.UserName,
+                    Id = link.AuthorId
                 },
-                commentCount = link.Comments.Count,
-                commentsIncluded = includeComments,
-                comments = !includeComments ? null : link.Comments.Select(c => new {
-                    id = c.Id,
-                    author = c.Author.UserName,
-                    authorId = c.AuthorId,
-                    text = c.Text
+                CommentCount = link.Comments.Count,
+                CommentsIncluded = includeComments,
+                Comments = !includeComments ? null : link.Comments.Select(c => new {
+                    Id = c.Id,
+                    Author = c.Author.UserName,
+                    AuthorId = c.AuthorId,
+                    Text = c.Text
                 })
             };
 

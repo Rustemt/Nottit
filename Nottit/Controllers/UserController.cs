@@ -13,14 +13,14 @@ namespace Nottit.Controllers {
 
         private object Transform(User user) {
             return new {
-                id = user.Id,
-                userName = user.UserName,
-                comments = user.Comments.Select(c => new {
+                Id = user.Id,
+                UserName = user.UserName,
+                Comments = user.Comments.Select(c => new {
                     Id = c.Id,
                     LinkUrl = c.Link.Url,
                     Text = c.Text
                 }),
-                links = user.Links.Select(l => new {
+                Links = user.Links.Select(l => new {
                     Id = l.Id,
                     Title = l.Title,
                     Url = l.Url

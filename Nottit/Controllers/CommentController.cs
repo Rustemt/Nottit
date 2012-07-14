@@ -13,17 +13,17 @@ namespace Nottit.Controllers {
     public class CommentController : BaseController {
         private object Transform(Comment comment) {
             return new {
-                id = comment.Id,
-                author = new {
-                    userName = comment.Author.UserName,
-                    id = comment.AuthorId
+                Id = comment.Id,
+                Author = new {
+                    UserName = comment.Author.UserName,
+                    Id = comment.AuthorId
                 },
-                link = new {
-                    title = comment.Link.Title,
-                    url = comment.Link.Url,
-                    id = comment.LinkId
+                Link = new {
+                    Title = comment.Link.Title,
+                    Url = comment.Link.Url,
+                    Id = comment.LinkId
                 },
-                text = comment.Text
+                Text = comment.Text
             };
         }
 

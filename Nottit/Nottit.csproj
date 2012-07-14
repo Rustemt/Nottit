@@ -139,7 +139,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\soshel.css" />
+    <Content Include="Content\css\nottit.css" />
     <Content Include="Content\css\sprite-reddit.png" />
     <Content Include="Content\img\bird.png" />
     <Content Include="Content\img\bootstrap-mdo-sfmoma-01.jpg" />
@@ -198,6 +198,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\App\Links.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App\LinkDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
