@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -34,13 +35,19 @@ namespace Nottit.Controllers {
         // GET api/link
         [AllowAnonymous]
         public IEnumerable GetSummary() {
-            return Db.Links.OrderBy(l => l.Id).AsEnumerable().Select(l => Transform(l, false));
+            return Db.Links
+                .Include(l => l.Comments)
+                .Include(l => l.Author)
+                .OrderBy(l => l.Id).AsEnumerable().Select(l => Transform(l, false));
         }
 
         // GET api/link/5
         [AllowAnonymous]
         public object Get(int id) {
-            var link = Db.Links.FirstOrDefault(l => l.Id == id);
+            var link = Db.Links
+                .Include(l => l.Comments)
+                .Include(l => l.Author)                
+                .FirstOrDefault(l => l.Id == id);
 
             if (link == null) {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -50,11 +57,14 @@ namespace Nottit.Controllers {
         }
 
         // POST api/link
+        [Authorize]
         public object Post(Link link) {
-            link.AuthorId = LoginManager.CurrentUser.Id;
+            link.Author = LoginManager.CurrentUser;
 
             Db.Links.Add(link);
             Db.SaveChanges();
+
+            link.Comments = new List<Comment>();
 
             return Transform(link, true);
         }

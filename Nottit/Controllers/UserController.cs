@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -30,13 +31,19 @@ namespace Nottit.Controllers {
         // Get api/user
         [AllowAnonymous]
         public IEnumerable Get() {
-            return Db.Users.AsEnumerable().Select(u => Transform(u));
+            return Db.Users
+                .Include(u => u.Comments)
+                .Include(u => u.Links)
+                .AsEnumerable().Select(u => Transform(u));
         }
 
         // GET api/user/5
         [AllowAnonymous]
         public object Get(int id) {
-            var user = Db.Users.FirstOrDefault(u => u.Id == id);
+            var user = Db.Users
+                .Include(u => u.Comments)
+                .Include(u => u.Links)              
+                .FirstOrDefault(u => u.Id == id);
 
             if (user == null) {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));

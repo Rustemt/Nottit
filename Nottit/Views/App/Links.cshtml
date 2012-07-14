@@ -1,8 +1,35 @@
 ﻿<h2>Links</h2>
 
+<a ng-click="showCreate()">Submit</a>
 
 <div ng-show="!links.length">Nothing submitted :(</div>
 
 <div ng-each="link in links">
     <a href="{{link.Url}}">{{link.Title}}</a>
+</div>
+
+
+<div id="createLinkModal" class="modal hide fade">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal" href="myModal">x</a>
+        <h3>Submit a link</h3>
+    </div>
+    <div class="modal-body">
+        <div ng-show="!!submitLinkErrorMessage">
+            {{submitLinkErrorMessage}}
+        </div>
+        <form name="myForm" ng-submit="create()">
+        <div>
+            <label>Title</label>
+            <input type="text" name="title" ng-model="newLink.Title" required>
+        </div>
+        <div>
+            <label>Url</label>
+            <input type="text" name="url" ng-model="newLink.Url" required>
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" value="Submit" class="btn btn-primary" ng-click="create()" />
+    </div>
 </div>

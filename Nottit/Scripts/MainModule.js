@@ -67,7 +67,20 @@ run(['$rootScope', '$http', function (scope, $http) {
 }]);
 
 function LinksController($scope, Link) {
+    var dialog = '#createLinkModal';
+
     $scope.links = Link.query();
+
+    $scope.showCreate = function () {
+        $(dialog).modal();
+    };
+
+    $scope.create = function () {
+        var link = new Link($scope.newLink);
+        link.$save(function () {
+            $(dialog).modal('hide');
+        });
+    };
 }
 
 function UserDetailController($rootScope, $scope, User) {
