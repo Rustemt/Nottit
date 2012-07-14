@@ -18,9 +18,15 @@ namespace Nottit {
             );
 
             routes.MapRoute(
+                name: "AppRoute",
+                url: "App/{slug}",
+                defaults: new { controller = "App", action = "Html", slug = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "",
+                defaults: new { controller = "App", action = "Html", slug = "Index" }
             );
         }
     }

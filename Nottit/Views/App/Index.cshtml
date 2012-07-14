@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="main">
+<head>
+    <meta charset="utf-8">
+    <title>Nottit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">Nottit</a>
+                <div class="btn-group pull-right">
+                    <a class="btn dropdown-toggle" href="#/Profile"><i class="icon-user"></i>{{user.UserName || "Not Logged In"}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" ng-view>
+    </div>
+    <!-- /container -->
+
+    <div id="loginModal" class="modal hide fade" ng-controller="LoginController">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal" href="myModal">x</a>
+            <h3>Please Log In</h3>
+        </div>
+        <div class="modal-body">
+            <div ng-show="!!loginErrorMessage">
+                {{loginErrorMessage}}
+            </div>
+            <form name="myForm" ng-submit="login()">
+            <div>
+                <label>Email</label>
+                <input type="text" name="Email" ng-model="email" required>
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" name="Password" ng-model="password" required>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Login" class="btn btn-primary" ng-click="login()" />
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular-1.0.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/angular-resource-1.0.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/MainModule.js"></script>
+    <script type="text/javascript" src="@Url.Content(Links.Scripts.CurrentUser_js)"></script>
+    <script type="text/javascript" src="@Url.Content(Links.Scripts.Challenge_js)"></script>
+    <script type="text/javascript" src="@Url.Content(Links.Scripts.ChallengeVote_js)"></script>
+    <script type="text/javascript" src="@Url.Content(Links.Scripts.ChallengeAssignment_js)"></script>
+    <script type="text/javascript" src="@Url.Content(Links.Scripts.ChallengeComment_js)"></script>
+</body>
+</html>

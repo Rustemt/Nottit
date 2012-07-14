@@ -1,0 +1,36 @@
+﻿.arrow {
+    width: 15px;
+    height: 14px;
+    background-image: url(sprite-reddit.png);
+}
+
+.upvote-true {
+    background-position: -96px -612px;
+}
+
+.upvote-false {
+    background-position: -80px -612px;
+}
+
+.downvote-true {
+    background-position: -64px -612px;
+}
+
+.downvote-false {
+    background-position: -48px -612px;
+}
+
+
+.voteContainer {
+    float: left;
+}
+
+.challengeTitle {
+    float: left;
+    line-height: 45px;
+    height: 45px;
+}
+
+.clear {
+    clear: both;
+}
