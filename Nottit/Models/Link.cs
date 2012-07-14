@@ -14,5 +14,28 @@ namespace Nottit.Models {
 
         public virtual string Title { get; set; }
         public virtual string Url { get; set; }
+
+        public object Transform(bool includeComments) {
+            var comments = this.Comments ?? new List<Comment>();
+
+            return new {
+                Id = Id,
+                Title = Title,
+                Url = Url,
+                Submitter = new {
+                    UserName = Author.UserName,
+                    Id = AuthorId
+                },
+                CommentCount = comments.Count,
+                CommentsIncluded = includeComments,
+                Comments = !includeComments ? null : comments.Select(c => new {
+                    Id = c.Id,
+                    Author = c.Author.UserName,
+                    AuthorId = c.AuthorId,
+                    Text = c.Text
+                })
+            };
+
+        }
     }
 }

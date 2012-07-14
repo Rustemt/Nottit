@@ -7,26 +7,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Nottit.Models;
+using nUser = Nottit.Models.User;
 
 namespace Nottit.Controllers {
     public class UserController : BaseController {
-
-        private object Transform(User user) {
-            return new {
-                Id = user.Id,
-                UserName = user.UserName,
-                Comments = user.Comments.Select(c => new {
-                    Id = c.Id,
-                    LinkUrl = c.Link.Url,
-                    Text = c.Text
-                }),
-                Links = user.Links.Select(l => new {
-                    Id = l.Id,
-                    Title = l.Title,
-                    Url = l.Url
-                })
-            };
-        }
   
         // Get api/user
         [AllowAnonymous]
@@ -34,7 +18,7 @@ namespace Nottit.Controllers {
             return Db.Users
                 .Include(u => u.Comments)
                 .Include(u => u.Links)
-                .AsEnumerable().Select(u => Transform(u));
+                .AsEnumerable().Select(u => u.Transform());
         }
 
         // GET api/user/5
@@ -49,7 +33,7 @@ namespace Nottit.Controllers {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
 
-            return Transform(user);
+            return user.Transform();
         }
     }
 }

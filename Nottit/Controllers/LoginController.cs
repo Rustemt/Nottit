@@ -12,9 +12,9 @@ namespace Nottit.Controllers {
         public object PostLogin(LoginModel loginModel) {
             string errorMessage;
             if (LoginManager.Login(loginModel.username, loginModel.password, out errorMessage)) {
-                return new { result = true };
+                return new { Result = true, User = LoginManager.CurrentUser.Transform() };
             } else {
-                return new { result = false, errorMessage = errorMessage };
+                return new { Result = false, ErrorMessage = errorMessage };
             }
         }
 

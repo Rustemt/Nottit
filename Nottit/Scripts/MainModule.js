@@ -1,4 +1,7 @@
 ﻿angular.module('main', ['ngResource']).
+factory('CurrentUser', function ($resource) {
+    return $resource('/api/CurrentUser');
+}).
 factory('Link', function ($resource) {
     return $resource('/api/Link');
 }).
@@ -23,9 +26,10 @@ config(function ($httpProvider) {
         }
 
         function error(response) {
+            debugger;
             var status = response.status;
 
-            if (status === 401) {
+            if (response.config.url !== '/api/CurrentUser' && status === 401) {
                 var deferred = $q.defer();
                 var req = {
                     config: response.config,
@@ -47,9 +51,10 @@ config(function ($httpProvider) {
     }];
     $httpProvider.responseInterceptors.push(interceptor);
 }).
-run(['$rootScope', '$http', function (scope, $http) {
+run(['$rootScope', '$http', 'CurrentUser', function (scope, $http, CurrentUser) {
     scope.appTitle = 'Nottit';
     scope.requests401 = [];
+    scope.user = CurrentUser.get();
 
     scope.$on('event:loginConfirmed', function () {
         var i, requests = scope.requests401;
@@ -66,7 +71,7 @@ run(['$rootScope', '$http', function (scope, $http) {
     });
 }]);
 
-function LinksController($scope, Link) {
+function LinksController($rootScope, $scope, Link) {
     var dialog = '#createLinkModal';
 
     $scope.links = Link.query();
@@ -77,14 +82,19 @@ function LinksController($scope, Link) {
 
     $scope.create = function () {
         var link = new Link($scope.newLink);
-        link.$save(function (newLink) {
-            $scope.links.push(newLink);
+        link.$save(function (result) {
+            $scope.links = Link.query();
             $(dialog).modal('hide');
         });
     };
+
+    $rootScope.$on('event:loginConfirmed', function () {
+        $scope.links = Link.query();
+    });
 }
 
-function UserDetailController($rootScope, $scope, User) {
+function UserDetailController($scope, $routeParams, User) {
+    $scope.user = User.get({ Id: $routeParams.Id });
 }
 
 function LinkDetailController($scope, $routeParams, Link) {
@@ -103,17 +113,18 @@ function LoginController($rootScope, $scope, $http, $location) {
     $scope.login = function () {
         var payload = { username: $scope.username, password: $scope.password };
         $http.post('/api/Login', payload).success(function (data) {
-            if (data.result === true) {
+            if (data.Result === true) {
+                $rootScope.user = data.User;
                 delete $scope.loginErrorMessage;
                 $scope.$emit('event:loginConfirmed');
                 $('#loginModal').modal('hide')
             } else {
-                $scope.loginErrorMessage = data.errorMessage;
+                $scope.loginErrorMessage = data.ErrorMessage;
             }
         });
     };
     $scope.logout = function () {
-        $http.delete ('/api/Login').success(function () {
+        $http.delete('/api/Login').success(function () {
             delete $rootScope.user;
             $location.path('/');
         });

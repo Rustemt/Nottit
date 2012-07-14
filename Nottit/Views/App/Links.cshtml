@@ -2,9 +2,13 @@
 
 <a ng-click="showCreate()">Submit</a>
 
-<div ng-show="!links.length">Nothing submitted :(</div>
+<div>
+<ng-pluralize count="links.length"
+    when="{'0': 'no links yet',
+    'one': '1 link',
+    'other': '{} links'}" />
+</div>
 
-<div>There are {{links.length}} links</div>
 <div ng-repeat="link in links">
     <div class="voteContainer">
         <div class="arrow upvote-{{link.CurrentUser.Upvote || 'false'}}" ng-click="voteUp(link)"></div>
@@ -15,7 +19,13 @@
         <a href="{{link.Url}}">{{link.Title}}</a>
     </div>
     <div class="clear"></div>
-    <div>submitted by {{link.Submitter.UserName}}, <a href="#/Link/{{link.Id}}">{{link.CommentCount || 0}} comments</a></div>
+    <div>submitted by {{link.Submitter.UserName}}, <a href="#/Link/{{link.Id}}">
+        <ng-pluralize count="link.CommentCount || 0"
+            when="{'0': 'comment',
+            'one': '1 comment',
+            'other': '{} comments'}" />
+        </a>
+    </div>
 </div>
 
 

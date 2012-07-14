@@ -11,5 +11,22 @@ namespace Nottit.Models {
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Link> Links { get; set; }
+
+        public object Transform() {
+            return new {
+                Id = Id,
+                UserName = UserName,
+                Comments = (Comments ?? new List<Comment>()).Select(c => new {
+                    Id = c.Id,
+                    LinkUrl = c.Link.Url,
+                    Text = c.Text
+                }),
+                Links = (Links ?? new List<Link>()).Select(l => new {
+                    Id = l.Id,
+                    Title = l.Title,
+                    Url = l.Url
+                })
+            };
+        }
     }
 }

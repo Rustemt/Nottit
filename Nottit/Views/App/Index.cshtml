@@ -24,7 +24,12 @@
                 </a>
                 <a class="brand" href="#">{{appTitle}}</a>
                 <div class="btn-group pull-right">
-                    <a class="btn dropdown-toggle" href="#/Profile"><i class="icon-user"></i>{{user.userName || "Not Logged In"}}</a>
+                    <a class="btn dropdown-toggle" href="#/User/{{user.Id}}"><i class="icon-user"></i>{{user.UserName || "Not Logged In"}}</a>
+                </div>
+                <div class="nav-collapse pull-right" ng-show="user.UserName">
+                    <ul class="nav">
+                        <li><a ng-click="logout()" ng-controller="LoginController">Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

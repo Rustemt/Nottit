@@ -2,6 +2,7 @@
     width: 15px;
     height: 14px;
     background-image: url(sprite-reddit.png);
+    cursor: pointer
 }
 
 .upvote-true {

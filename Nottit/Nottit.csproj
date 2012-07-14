@@ -115,6 +115,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\CurrentUserController.cs" />
     <Compile Include="Controllers\LinkController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -201,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\App\LinkDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App\UserDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
