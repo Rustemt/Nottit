@@ -11,6 +11,13 @@ factory('Comment', function ($resource) {
 factory('User', function ($resource) {
     return $resource('/api/User');
 }).
+directive('nottitLink', function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: '/app/LinkTemplate'
+    }
+}).
 config(function ($routeProvider) {
     $routeProvider.
         when('/', { controller: LinksController, templateUrl: '/App/Links' }).
@@ -26,7 +33,6 @@ config(function ($httpProvider) {
         }
 
         function error(response) {
-            debugger;
             var status = response.status;
 
             if (response.config.url !== '/api/CurrentUser' && status === 401) {
@@ -55,6 +61,10 @@ run(['$rootScope', '$http', 'CurrentUser', function (scope, $http, CurrentUser) 
     scope.appTitle = 'Nottit';
     scope.requests401 = [];
     scope.user = CurrentUser.get();
+
+    scope.doLogin = function () {
+        $('#loginModal').modal();
+    };
 
     scope.$on('event:loginConfirmed', function () {
         var i, requests = scope.requests401;
@@ -117,7 +127,7 @@ function LoginController($rootScope, $scope, $http, $location) {
                 $rootScope.user = data.User;
                 delete $scope.loginErrorMessage;
                 $scope.$emit('event:loginConfirmed');
-                $('#loginModal').modal('hide')
+                $('#loginModal').modal('hide');
             } else {
                 $scope.loginErrorMessage = data.ErrorMessage;
             }

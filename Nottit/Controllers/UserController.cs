@@ -26,7 +26,7 @@ namespace Nottit.Controllers {
         public object Get(int id) {
             var user = Db.Users
                 .Include(u => u.Comments)
-                .Include(u => u.Links)              
+                .Include("Links.Author")              
                 .FirstOrDefault(u => u.Id == id);
 
             if (user == null) {

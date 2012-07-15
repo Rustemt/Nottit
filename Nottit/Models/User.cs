@@ -21,14 +21,22 @@ namespace Nottit.Models {
                     Link = new {
                         Id = c.Link.Id,
                         Url = c.Link.Url,
-                        Title = c.Link.Title
+                        Title = c.Link.Title,
+                        Submitter = new {
+                            UserName = c.Link.Author.UserName,
+                            Id = c.Link.AuthorId
+                        },
                     },
                     Text = c.Text
                 }),
                 Links = (Links ?? new List<Link>()).Select(l => new {
                     Id = l.Id,
                     Title = l.Title,
-                    Url = l.Url
+                    Url = l.Url,
+                    Submitter = new {
+                        UserName = l.Author.UserName,
+                        Id = l.AuthorId
+                    },
                 })
             };
         }

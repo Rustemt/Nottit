@@ -23,8 +23,11 @@
                     <span class="icon-bar"></span>
                 </a>
                 <a class="brand" href="#">{{appTitle}}</a>
-                <div class="btn-group pull-right">
-                    <a class="btn dropdown-toggle" href="#/User/{{user.Id}}"><i class="icon-user"></i>{{user.UserName || "Not Logged In"}}</a>
+                <div class="btn-group pull-right" ng-show="user.UserName">
+                    <a class="btn dropdown-toggle" href="#/User/{{user.Id}}"><i class="icon-user"></i>{{user.UserName}}</a>
+                </div>
+                <div class="btn-group pull-right" ng-show="!user.UserName">
+                    <a class="btn dropdown-toggle" ng-click="doLogin()"><i class="icon-user"></i>Login</a>
                 </div>
                 <div class="nav-collapse pull-right" ng-show="user.UserName">
                     <ul class="nav">

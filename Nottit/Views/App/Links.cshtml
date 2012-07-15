@@ -9,10 +9,12 @@
     'other': '{} links'}" />
 </div>
 
-<div ng-repeat="link in links">
+<nottit-link ng-repeat="link in links"></nottit-link>
+
+@*<div ng-repeat="link in links">
     <div class="voteContainer">
         <div class="arrow upvote-{{link.CurrentUser.Upvote || 'false'}}" ng-click="voteUp(link)"></div>
-        <div>{{link.VoteTally || 0}}</div>
+        <div class="voteTally">{{link.VoteTally || 0}}</div>
         <div class="arrow downvote-{{challenge.CurrentUser.Downvote || 'false'}}" ng-click="voteDown(link)"></div>
     </div>
     <div class="linkTitle">
@@ -26,7 +28,7 @@
             'other': '{} comments'}" />
         </a>
     </div>
-</div>
+</div>*@
 
 
 <div id="createLinkModal" class="modal hide fade">
