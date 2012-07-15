@@ -29,15 +29,7 @@ namespace Nottit.Models {
                     },
                     Text = c.Text
                 }),
-                Links = (Links ?? new List<Link>()).Select(l => new {
-                    Id = l.Id,
-                    Title = l.Title,
-                    Url = l.Url,
-                    Submitter = new {
-                        UserName = l.Author.UserName,
-                        Id = l.AuthorId
-                    },
-                })
+                Links = (Links ?? new List<Link>()).Select(l => l.Transform(false, this))
             };
         }
     }
