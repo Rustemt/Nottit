@@ -1,8 +1,8 @@
 ﻿<div>
     <div class="voteContainer">
-        <div class="arrow upvote-{{link.CurrentUser.Upvote || 'false'}}" ng-click="voteUp(link)"></div>
-        <div class="voteTally">{{link.VoteTally || 0}}</div>
-        <div class="arrow downvote-{{challenge.CurrentUser.Downvote || 'false'}}" ng-click="voteDown(link)"></div>
+        <div class="arrow upvote-{{link.UpvoteCurrentUser || 'false'}}" ng-click="voteUp(link)" ng-controller="LinksController"></div>
+        <div class="voteTally">{{link.VoteTally}}</div>
+        <div class="arrow downvote-{{link.DownvoteCurrentUser || 'false'}}" ng-click="voteDown(link)" ng-controller="LinksController"></div>
     </div>
     <div class="linkTitle">
         <a href="{{link.Url}}">{{link.Title}}</a>

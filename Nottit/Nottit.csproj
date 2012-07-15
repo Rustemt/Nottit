@@ -117,6 +117,7 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CurrentUserController.cs" />
     <Compile Include="Controllers\LinkController.cs" />
+    <Compile Include="Controllers\LinkVoteController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -126,9 +127,14 @@
     <Compile Include="Migrations\201207141416454_AllInitialEntities.Designer.cs">
       <DependentUpon>201207141416454_AllInitialEntities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201207150327041_addLinkVote.cs" />
+    <Compile Include="Migrations\201207150327041_addLinkVote.Designer.cs">
+      <DependentUpon>201207150327041_addLinkVote.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Link.cs" />
+    <Compile Include="Models\LinkVote.cs" />
     <Compile Include="Models\LoginManager.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NottitDb.cs" />

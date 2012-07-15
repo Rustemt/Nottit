@@ -1,32 +1,53 @@
 ﻿angular.module('main', ['ngResource']).
-factory('CurrentUser', function ($resource) {
+factory('CurrentUser', function($resource) {
     return $resource('/api/CurrentUser');
 }).
-factory('Link', function ($resource) {
+factory('Link', function($resource) {
     return $resource('/api/Link');
 }).
-factory('Comment', function ($resource) {
+factory('LinkVote', function($http) {
+    function sendVote(link, value) {
+        $http.post('/api/LinkVote', {
+            LinkId: link.Id,
+            Value: value
+        }).success(function(data) {
+            link.VoteTally = data.VoteTally;
+            link.UpvoteCurrentUser = data.UpvoteCurrentUser;
+            link.DownvoteCurrentUser = data.DownvoteCurrentUser;
+        });
+    }
+
+    return {
+        voteUp: function(link) {
+            sendVote(link, link.UpvoteCurrentUser ? 0 : 1);
+        },
+        voteDown: function(link) {
+            sendVote(link, link.DownvoteCurrentUser ? 0 : -1);
+        }
+    };
+}).
+factory('Comment', function($resource) {
     return $resource('/api/Comment');
 }).
-factory('User', function ($resource) {
+factory('User', function($resource) {
     return $resource('/api/User');
 }).
-directive('nottitLink', function () {
+directive('nottitLink', function() {
     return {
         restrict: 'E',
         replace: true,
         templateUrl: '/app/LinkTemplate'
     }
 }).
-config(function ($routeProvider) {
+config(function($routeProvider) {
     $routeProvider.
         when('/', { controller: LinksController, templateUrl: '/App/Links' }).
         when('/User/:Id', { controller: UserDetailController, templateUrl: '/App/UserDetail' }).
         when('/Link/:Id', { controller: LinkDetailController, templateUrl: '/App/LinkDetail' }).
         otherwise({ redirectTo: '/' });
 }).
-config(function ($httpProvider) {
-    var interceptor = ['$rootScope', '$q', function (scope, $q) {
+config(function($httpProvider) {
+    var interceptor = ['$rootScope', '$q', function(scope, $q) {
 
         function success(response) {
             return response;
@@ -50,23 +71,23 @@ config(function ($httpProvider) {
 
         }
 
-        return function (promise) {
+        return function(promise) {
             return promise.then(success, error);
         }
 
     }];
     $httpProvider.responseInterceptors.push(interceptor);
 }).
-run(['$rootScope', '$http', 'CurrentUser', function (scope, $http, CurrentUser) {
+run(['$rootScope', '$http', 'CurrentUser', function(scope, $http, CurrentUser) {
     scope.appTitle = 'Nottit';
     scope.requests401 = [];
     scope.user = CurrentUser.get();
 
-    scope.doLogin = function () {
+    scope.doLogin = function() {
         $('#loginModal').modal();
     };
 
-    scope.$on('event:loginConfirmed', function () {
+    scope.$on('event:loginConfirmed', function() {
         var i, requests = scope.requests401;
         for (i = 0; i < requests.length; i++) {
             retry(requests[i]);
@@ -74,31 +95,47 @@ run(['$rootScope', '$http', 'CurrentUser', function (scope, $http, CurrentUser) 
         scope.requests401 = [];
 
         function retry(req) {
-            $http(req.config).then(function (response) {
+            $http(req.config).then(function(response) {
                 req.deferred.resolve(response);
             });
         }
     });
+
+    scope.$on('event:logoutConfirmed', function() {
+        delete scope.user;
+    });
 }]);
 
-function LinksController($rootScope, $scope, Link) {
+function LinksController($rootScope, $scope, Link, LinkVote) {
     var dialog = '#createLinkModal';
 
     $scope.links = Link.query();
 
-    $scope.showCreate = function () {
+    $scope.showCreate = function() {
         $(dialog).modal();
     };
 
-    $scope.create = function () {
+    $scope.create = function() {
         var link = new Link($scope.newLink);
-        link.$save(function (result) {
+        link.$save(function(result) {
             $scope.links = Link.query();
             $(dialog).modal('hide');
         });
     };
 
-    $rootScope.$on('event:loginConfirmed', function () {
+    $scope.voteUp = function(link) {
+        LinkVote.voteUp(link);
+    };
+
+    $scope.voteDown = function(link) {
+        LinkVote.voteDown(link);
+    };
+
+    $rootScope.$on('event:loginConfirmed', function() {
+        $scope.links = Link.query();
+    });
+
+    $rootScope.$on('event:logoutConfirmed', function() {
         $scope.links = Link.query();
     });
 }
@@ -110,19 +147,19 @@ function UserDetailController($scope, $routeParams, User) {
 function LinkDetailController($scope, $routeParams, Link, Comment) {
     $scope.link = Link.get({ Id: $routeParams.Id });
 
-    $scope.createComment = function () {
+    $scope.createComment = function() {
         var comment = new Comment($scope.newComment);
         comment.LinkId = $scope.link.Id;
-        comment.$save(function (newComment) {
+        comment.$save(function(newComment) {
             $scope.link.Comments.splice(0, 0, newComment);
         });
     };
 }
 
 function LoginController($rootScope, $scope, $http, $location) {
-    $scope.login = function () {
+    $scope.login = function() {
         var payload = { username: $scope.username, password: $scope.password };
-        $http.post('/api/Login', payload).success(function (data) {
+        $http.post('/api/Login', payload).success(function(data) {
             if (data.Result === true) {
                 $rootScope.user = data.User;
                 delete $scope.loginErrorMessage;
@@ -133,9 +170,9 @@ function LoginController($rootScope, $scope, $http, $location) {
             }
         });
     };
-    $scope.logout = function () {
-        $http.delete('/api/Login').success(function () {
-            delete $rootScope.user;
+    $scope.logout = function() {
+        $http.delete ('/api/Login').success(function() {
+            $scope.$emit('event:logoutConfirmed');
             $location.path('/');
         });
     };

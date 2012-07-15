@@ -5,6 +5,16 @@ using System.Web;
 
 namespace Nottit.Models {
     public class Link {
+        private bool HasUpvoteFromUser(User user) {
+            return user != null
+                && Votes.Any(v => v.VoterId == user.Id && v.Value == 1);
+        }
+
+        private bool HasDownvoteFromUser(User user) {
+            return user != null
+                && Votes.Any(v => v.VoterId == user.Id && v.Value == -1);
+        }
+
         public virtual int Id { get; set; }
 
         public virtual int AuthorId { get; set; }
@@ -15,7 +25,18 @@ namespace Nottit.Models {
         public virtual string Title { get; set; }
         public virtual string Url { get; set; }
 
-        public object Transform(bool includeComments) {
+        public virtual ICollection<LinkVote> Votes { get; set; }
+
+        public int VoteTally {
+            get {
+                if (Votes == null) {
+                    return 0;
+                }
+                return Votes.Aggregate(0, (accum, vote) => accum + vote.Value);
+            }
+        }
+
+        public object Transform(bool includeComments, User currentUser) {
             var comments = this.Comments ?? new List<Comment>();
 
             return new {
@@ -26,6 +47,7 @@ namespace Nottit.Models {
                     UserName = Author.UserName,
                     Id = AuthorId
                 },
+                VoteTally = VoteTally,
                 CommentCount = comments.Count,
                 CommentsIncluded = includeComments,
                 Comments = !includeComments ? null : comments.Select(c => new {
@@ -35,7 +57,9 @@ namespace Nottit.Models {
                         UserName = c.Author.UserName,
                     },
                     Text = c.Text
-                })
+                }),
+                UpvoteCurrentUser = HasUpvoteFromUser(currentUser),
+                DownvoteCurrentUser = HasDownvoteFromUser(currentUser)
             };
 
         }
