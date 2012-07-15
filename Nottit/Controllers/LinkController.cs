@@ -11,18 +11,19 @@ using Nottit.Models;
 namespace Nottit.Controllers {
     public class LinkController : BaseController {
 
-        private IQueryable<Link> Links() {
+        private IEnumerable<Link> Links() {
             return Db.Links
                 .Include("Comments.Author")
                 .Include(l => l.Votes)
                 .Include(l => l.Author)
-                .OrderBy(l => l.Id);
+                .AsEnumerable()
+                .OrderByDescending(l => l.VoteTally);
         }
 
         // GET api/link
         [AllowAnonymous]
         public IEnumerable GetSummary() {
-            return Links().AsEnumerable().Select(l => l.Transform(false, LoginManager.CurrentUser));
+            return Links().Select(l => l.Transform(false, LoginManager.CurrentUser));
         }
 
         // GET api/link/5
