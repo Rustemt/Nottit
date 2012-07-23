@@ -4,8 +4,13 @@
 	<title>A Todo app</title>
 
 	<style>
+		.toggle {
+			font-size: 9px;
+			color: #AAA;
+		}
+
 		.task-complete-true {
-			font-style: strikethrough;
+			text-decoration: line-through;
 			color: #888;
 		}
 	</style>
@@ -21,6 +26,7 @@
 					isComplete: false,
 					text: $scope.newTask
 				});
+				delete $scope.newTask;
 			};
 			$scope.toggleTask = function(task) {
 				task.isComplete = !task.isComplete;
@@ -34,12 +40,14 @@
 		<button ng-click="addTask()">Add</button>
 
 		<ul>
-			<li ng-repeat="task in tasks" class="task-complete-{{task.isComplete}}">
-				{{task.text}} 
-				<a ng-click="toggleTask(task)">
-					mark
-					<span ng-show="task.isComplete">in</span>complete
-				</a>
+			<li ng-repeat="task in tasks | orderBy:'isComplete':false">
+				<span class="task-complete-{{task.isComplete}}">{{task.text}}</span>
+				<span class="toggle">
+					<a ng-click="toggleTask(task)">
+						mark
+						<span ng-show="task.isComplete">in</span>complete
+					</a>
+				</span>
 			</li>
 		</ul>
 	</div>
