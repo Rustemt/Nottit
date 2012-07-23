@@ -11,7 +11,6 @@ A tiny subset of Reddit is the goal:
 * submit links
 * vote up/down links
 * comment on links
-* vote up/down comments
 * view a user's profile
 * very primitive ranking algorithm for comments/links (just sorting by overall vote count)
 
@@ -26,5 +25,7 @@ There are two canned users, they are:
 
 # Deployed at
 
-So far not deployed anywhere. I plan to throw this up on Windows Azure. I'll update this readme when I do.
+http://nottit.azurewebsites.net
+
+
 

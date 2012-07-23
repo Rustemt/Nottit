@@ -19,4 +19,4 @@ _ReSharper.*
 *.resharper
 Ankh.NoLoad
 TestResults/
-
+PublishProfiles/
