@@ -1,12 +1,5 @@
-﻿<h2>Links</h2>
-
-<a ng-click="showCreate()">Submit</a>
-
-<div>
-<ng-pluralize count="links.length"
-    when="{'0': 'no links yet',
-    'one': '1 link',
-    'other': '{} links'}" />
+﻿<div id="submitContainer">
+    <a ng-click="showCreate()">Submit a Link</a>
 </div>
 
 <nottit-link ng-repeat="link in links | orderBy:'VoteTally':true"></nottit-link>

@@ -27,7 +27,11 @@ namespace Nottit.Models {
                             Id = c.Link.AuthorId
                         },
                     },
-                    Text = c.Text
+                    Text = c.Text,
+                    Author = new {
+                        UserName = UserName,
+                        Id = Id
+                    }
                 }),
                 Links = (Links ?? new List<Link>()).Select(l => l.Transform(false, this))
             };

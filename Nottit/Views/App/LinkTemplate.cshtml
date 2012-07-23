@@ -1,19 +1,24 @@
-﻿<div>
+﻿<div class="linkContainer">
     <div class="voteContainer">
         <div class="arrow upvote-{{link.UpvoteCurrentUser || 'false'}}" ng-click="voteUp(link)" ng-controller="LinksController"></div>
         <div class="voteTally">{{link.VoteTally}}</div>
         <div class="arrow downvote-{{link.DownvoteCurrentUser || 'false'}}" ng-click="voteDown(link)" ng-controller="LinksController"></div>
     </div>
-    <div class="linkTitle">
-        <a href="{{link.Url}}" target="_blank">{{link.Title}}</a>
-    </div>
-    <div class="clear"></div>
-    <div>
-        submitted by {{link.Submitter.UserName}}, <a href="#/Link/{{link.Id}}">
-            <ng-pluralize count="link.CommentCount || 0"
-                when="{'0': 'comment',
+    <div class="linkInfoContainer">
+        <div class="linkTitle">
+            <a href="{{link.Url}}" target="_blank">{{link.Title}}</a>
+        </div>
+        <div class="submittedContainer">
+            submitted by <a href="#/User/{{link.Submitter.Id}}">{{link.Submitter.UserName}}</a>
+        </div>
+        <div class="commentsContainer">
+            <a href="#/Link/{{link.Id}}">
+                <ng-pluralize count="link.CommentCount || 0"
+                    when="{'0': 'comment',
             'one': '1 comment',
             'other': '{} comments'}" />
-        </a>
+            </a>
+        </div>
     </div>
+    <div class="clear"></div>
 </div>

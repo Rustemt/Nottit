@@ -1,9 +1,11 @@
 ﻿<nottit-link></nottit-link>
 
-<textarea ng-model="newComment.Text"></textarea>
-<input type="submit" value="Comment" class="btn btn-primary" ng-click="createComment()" />
-
-<div ng-repeat="comment in link.Comments">
-    {{comment.Text }} -- {{comment.Author.UserName}}
-    <div><a ng-click="replyTo(comment)">reply</a></div>
+<textarea ng-model="newComment.Text" rows="6" columns="30"></textarea>
+<div>
+    <input type="submit" value="Comment" class="btn btn-primary" ng-click="createComment()" />
 </div>
+
+<div class="linkCommentsContainer">
+    <nottit-comment ng-repeat="comment in link.Comments"></nottit-comment>
+</div>
+

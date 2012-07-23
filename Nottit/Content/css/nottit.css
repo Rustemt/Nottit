@@ -2,7 +2,7 @@
     width: 15px;
     height: 14px;
     background-image: url(sprite-reddit.png);
-    cursor: pointer
+    cursor: pointer;
 }
 
 .upvote-true {
@@ -21,19 +21,68 @@
     background-position: -48px -612px;
 }
 
+#submitContainer {
+    float: right;
+}
+
+.linkContainer {
+    margin-bottom: 20px;
+}
 
 .voteContainer {
     float: left;
 }
 
-.voteTally {
-    text-align: center;
+.linkTitle {
+    font-size: 16px;
 }
 
-.linkTitle {
+.voteTally {
+    text-align: center;
+    color: #C6C6C6;
+    font-weight: bold;
+    font-family: Verdana, Arial, helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.linkInfoContainer {
     float: left;
-    line-height: 45px;
-    height: 45px;
+    margin-left: 15px;
+}
+
+.submittedContainer {
+    color: #888;
+    font-size: x-small;
+    line-height: normal;
+}
+
+.commentsContainer {
+    line-height: normal;
+}
+
+.commentsContainer a {
+    color: #888;
+    font-size: 10px;
+    font-weight: bolder;
+    display: inline-block;
+}
+
+.linkCommentsContainer {
+    margin-top: 30px;
+}
+
+.commentContainer {
+    margin-bottom: 20px;
+    max-width: 80%;
+}
+
+.commentContainer:last-of-type {
+    margin-bottom: 0;
+}
+
+.commentAuthorContainer {
+    font-weight: bold;
+    font-size: 10px;
 }
 
 .clear {

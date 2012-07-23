@@ -39,6 +39,13 @@ directive('nottitLink', function() {
         templateUrl: '/app/LinkTemplate'
     }
 }).
+directive('nottitComment', function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: '/app/CommentTemplate'
+    }
+}).
 config(function($routeProvider) {
     $routeProvider.
         when('/', { controller: LinksController, templateUrl: '/App/Links' }).
