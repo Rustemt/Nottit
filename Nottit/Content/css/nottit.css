@@ -1,4 +1,10 @@
-﻿.arrow {
+﻿#availableUsers {
+    font-size: 10px;
+    color: grey;
+    margin-bottom: 10px;
+}
+
+.arrow {
     width: 15px;
     height: 14px;
     background-image: url(sprite-reddit.png);
