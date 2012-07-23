@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>A Todo app</title>
+
+	<style>
+		.task-complete-true {
+			font-style: strikethrough;
+			color: #888;
+		}
+	</style>
+
+	<script type="text/javascript" src="angular-1.0.1.min.js"></script>
+
+	<script type="text/javascript">
+		function ToDoController($scope) {
+			$scope.tasks = [];
+
+			$scope.addTask = function() {
+				$scope.tasks.push({
+					isComplete: false,
+					text: $scope.newTask
+				});
+			};
+			$scope.toggleTask = function(task) {
+				task.isComplete = !task.isComplete;
+			};
+		}
+	</script>
+</head>
+<body>
+	<div ng-app ng-controller="ToDoController">
+		<input type="text" ng-model="newTask" />
+		<button ng-click="addTask()">Add</button>
+
+		<ul>
+			<li ng-repeat="task in tasks" class="task-complete-{{task.isComplete}}">
+				{{task.text}} 
+				<a ng-click="toggleTask(task)">
+					mark
+					<span ng-show="task.isComplete">in</span>complete
+				</a>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+
+				
+
